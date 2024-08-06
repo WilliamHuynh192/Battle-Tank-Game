@@ -10,13 +10,7 @@ find_package(SDL2 REQUIRED)
 add_executable(battle_tank ${PROJECT_SOURCE_DIR}/src/battle_tank.cpp)
 
 target_link_libraries(battle_tank
-    SDL2::SDL2
-)
-
-# Set the subsystem to Windowse
-set_target_properties(battle_tank PROPERTIES
-    WIN32_EXECUTABLE YES
-    LINK_FLAGS "/SUBSYSTEM:WINDOWS"
+    SDL2::SDL2main
 )
 
 install(TARGETS battle_tank RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/bin)

@@ -1,81 +1,51 @@
-#ifndef UNICODE
-#define UNICODE
-#endif
+#include <SDL2/SDL.h>
+#include <stdio.h>
 
-#include <windows.h>
+int main(int argc, char* argv[]) {
+    const int SCREEN_WIDTH = 1366;
+    const int SCREEN_HEIGHT = 768;
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    // Create the window instance
+    SDL_Window* window = nullptr;
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
-{
-    // Register the window class.
-    const wchar_t CLASS_NAME[]  = L"Sample Window Class";
+    //The game area contained by the window
+    SDL_Surface* gameSurface = nullptr;
 
-    WNDCLASS wc = { };
-
-    wc.lpfnWndProc   = WindowProc;
-    wc.hInstance     = hInstance;
-    wc.lpszClassName = CLASS_NAME;
-
-    RegisterClass(&wc);
-
-    // Create the window.
-
-    HWND hwnd = CreateWindowEx(
-        0,                              // Optional window styles.
-        CLASS_NAME,                     // Window class
-        L"Learn to Program Windows",    // Window text
-        WS_OVERLAPPEDWINDOW,            // Window style
-
-        // Size and position
-        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
-        NULL,       // Parent window
-        NULL,       // Menu
-        hInstance,  // Instance handle
-        NULL        // Additional application data
+    //Initialize SDL
+    if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
+        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+    }
+    else {
+        window = SDL_CreateWindow(
+            "Battle Tank",
+            SDL_WINDOWPOS_UNDEFINED,
+            SDL_WINDOWPOS_UNDEFINED,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            SDL_WINDOW_SHOWN
         );
 
-    if (hwnd == NULL)
-    {
-        return 0;
+        if( window == nullptr ) {
+            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        }
+        else {
+            gameSurface = SDL_GetWindowSurface( window );
+
+            // Do something with the surface
+            SDL_FillRect( gameSurface, NULL, SDL_MapRGB( gameSurface->format, 0xFF, 0xFF, 0xFF ) );
+
+            SDL_UpdateWindowSurface( window );
+
+            //Hack to get window to stay up
+            SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = true; } }
+        }
     }
 
-    ShowWindow(hwnd, nCmdShow);
+    //Destroy window
+    SDL_DestroyWindow( window );
 
-    // Run the message loop.
-
-    MSG msg = { };
-    while (GetMessage(&msg, NULL, 0, 0) > 0)
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
+    //Quit SDL subsystems
+    SDL_Quit();
 
     return 0;
-}
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hwnd, &ps);
-
-            // All painting occurs here, between BeginPaint and EndPaint.
-
-            FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
-
-            EndPaint(hwnd, &ps);
-        }
-        return 0;
-
-    }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
