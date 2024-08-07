@@ -11,6 +11,8 @@ bool loadComponents();
 
 void closeSDL();
 
+
+// TODO: Maybe make these utilize smart pointers? Just need to provide custom deleter to pass to the pointer
 SDL_Window* g_window = nullptr;
 SDL_Surface* g_gameSurface = nullptr; // Game surface contain in the window
 SDL_Surface* g_imageComponent = nullptr;
