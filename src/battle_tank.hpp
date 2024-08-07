@@ -11,5 +11,6 @@ bool loadComponents();
 
 void closeSDL();
 
-SDL_Window* window = nullptr;
-SDL_Surface* gameSurface = nullptr; // Game surface contain in the window
+SDL_Window* g_window = nullptr;
+SDL_Surface* g_gameSurface = nullptr; // Game surface contain in the window
+SDL_Surface* g_imageComponent = nullptr;

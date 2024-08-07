@@ -10,7 +10,7 @@ bool initSDL() {
         success = false;
     }
     else {
-        window = SDL_CreateWindow(
+        g_window = SDL_CreateWindow(
             "Battle Tank",
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
@@ -19,12 +19,12 @@ bool initSDL() {
             SDL_WINDOW_SHOWN
         );
 
-        if( window == nullptr ) {
+        if( g_window == nullptr ) {
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
             success = false;
         }
         else {
-            gameSurface = SDL_GetWindowSurface( window );
+            g_gameSurface = SDL_GetWindowSurface( g_window );
             success = true;
         }
     }
@@ -34,7 +34,15 @@ bool initSDL() {
 
 bool loadComponents() {
     
-    bool success = false;
+    bool success = true;
+
+    g_imageComponent = SDL_LoadBMP("hello_world.bmp");
+
+    if( g_imageComponent == NULL )
+    {
+        printf( "Unable to load image %s! SDL Error: %s\n", "hello_world.bmp", SDL_GetError() );
+        success = false;
+    }
 
     return success;
 }
@@ -42,7 +50,7 @@ bool loadComponents() {
 void closeSDL() {
 
     //Destroy window
-    SDL_DestroyWindow( window );
+    SDL_DestroyWindow( g_window );
 
     //Quit SDL subsystems
     SDL_Quit();
@@ -68,11 +76,14 @@ int main(int argc, char* argv[]) {
     * Render components
     */
 
-    //Fill the surface white
-    SDL_FillRect( gameSurface, NULL, SDL_MapRGB( gameSurface->format, 0xFF, 0xFF, 0xFF ) );
+    // //Fill the surface white
+    // SDL_FillRect( gameSurface, NULL, SDL_MapRGB( gameSurface->format, 0xFF, 0xFF, 0xFF ) );
+
+    //Apply the image
+    SDL_BlitSurface( g_imageComponent, NULL, g_gameSurface, NULL );
     
     //Update the surface
-    SDL_UpdateWindowSurface( window );
+    SDL_UpdateWindowSurface( g_window );
 
     //Hack to get window to stay up
     SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = true; } }
