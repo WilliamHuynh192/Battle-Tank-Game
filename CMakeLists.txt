@@ -9,6 +9,8 @@ find_package(SDL2 REQUIRED)
 
 add_executable(battle_tank ${PROJECT_SOURCE_DIR}/src/battle_tank.cpp)
 
+target_include_directories(battle_tank PRIVATE ${PROJECT_SOURCE_DIR}/src)
+
 target_link_libraries(battle_tank
     SDL2::SDL2main
 )
