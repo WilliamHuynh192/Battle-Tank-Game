@@ -1,5 +1,7 @@
-#include <battle_tank.hpp>
 #include <stdio.h>
+#include <string>
+
+#include "battle_tank.hpp"
 
 bool initSDL() {
     
@@ -36,15 +38,41 @@ bool loadComponents() {
     
     bool success = true;
 
-    g_imageComponent = SDL_LoadBMP("hello_world.bmp");
-
-    if( g_imageComponent == NULL )
-    {
-        printf( "Unable to load image %s! SDL Error: %s\n", "hello_world.bmp", SDL_GetError() );
+    if (!loadImage("resources/left.bmp", g_imageLeft)) {
         success = false;
+        return success;
+    }
+
+    if (!loadImage("resources/right.bmp", g_imageRight)) {
+        success = false;
+        return success;
+    }
+
+    if (!loadImage("resources/up.bmp", g_imageUp)) {
+        success = false;
+        return success;
+    }
+
+    if (!loadImage("resources/down.bmp", g_imageDown)) {
+        success = false;
+        return success;
     }
 
     return success;
+}
+
+bool loadImage(string imagePath, SDL_Surface* imageComponent) {
+    imageComponent = SDL_LoadBMP(imagePath);
+
+    if( imageComponent == NULL )
+    {
+        printf( "Unable to load image %s! SDL Error: %s\n", imagePath, SDL_GetError() );
+        return false;
+    } else {
+        printf( "Successfully load %s", imagePath );
+    }
+
+    return true;
 }
 
 void closeSDL() {
@@ -76,17 +104,48 @@ int main(int argc, char* argv[]) {
     * Render components
     */
 
-    // //Fill the surface white
-    // SDL_FillRect( gameSurface, NULL, SDL_MapRGB( gameSurface->format, 0xFF, 0xFF, 0xFF ) );
-
-    //Apply the image
-    SDL_BlitSurface( g_imageComponent, NULL, g_gameSurface, NULL );
+    //Main event loop
+    SDL_Event e; 
+    bool quit = false; 
     
-    //Update the surface
-    SDL_UpdateWindowSurface( g_window );
+    while( !quit ) { 
+        while( SDL_PollEvent( &e ) ) { 
+            if( e.type == SDL_QUIT ) {
+                quit = true; 
+            } else if (e.type == SDL_) {
 
-    //Hack to get window to stay up
-    SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = true; } }
+            }
+
+            //Apply the image base on the key press
+            switch (e.key.keysym.sym)
+            {
+                case SDLK_UP:
+                    g_currentImageComponent = g_imageUp;
+                    break;
+                
+                case SDLK_DOWN:
+                    g_currentImageComponent = g_imageDown;
+                    break;
+
+                case SDLK_LEFT:
+                    g_currentImageComponent = g_imageLeft;
+                    break;
+
+                case SDLK_RIGHT:
+                    g_currentImageComponent = g_imageRight;
+                    break;
+            
+                default:
+                    g_currentImageComponent = g_imageIdle;
+                    break;
+            }
+
+            SDL_BlitSurface( g_currentImageComponent, NULL, g_gameSurface, NULL );
+            
+            //Update the surface
+            SDL_UpdateWindowSurface( g_window );
+        } 
+    }
 
 
     /*
