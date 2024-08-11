@@ -7,7 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(SDL2 REQUIRED)
 
-add_executable(battle_tank ${PROJECT_SOURCE_DIR}/src/battle_tank.cpp)
+include(${PROJECT_SOURCE_DIR}/src/sources.cmake)
+
+add_executable(battle_tank ${PROJECT_SOURCE_DIR}/src/battle_tank.cpp ${BATTLE_TANK_SOURCES})
 
 target_include_directories(battle_tank PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
