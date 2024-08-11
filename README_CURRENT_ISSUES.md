@@ -1,0 +1,2 @@
+- August/11/2024: 
+PROBLEM: Currently, sdl_image/2.6.3 requires an older version of sdl, a temporary fix is implement using "force", but it's prefer not to use it cause it could cause problem with transitive dependencies. Keep track of conan index for sdl_image update.

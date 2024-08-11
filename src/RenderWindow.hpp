@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 class RenderWindow {
 
@@ -11,12 +12,11 @@ public:
 
     void cleanUp();
 
-    bool loadSprites();
+    bool loadSprites(const char* fileName, const char* filePath);
 
 private:
 
     // TODO: Maybe make these utilize smart pointers? Just need to provide custom deleter to pass to the pointer
     SDL_Window* m_window = nullptr;
-    SDL_Surface* m_gameSurface = nullptr; // Game surface contains in the window
-
+    SDL_Renderer* m_renderer = nullptr;
 };
