@@ -19,6 +19,9 @@ int main(int argc, char* argv[]) {
     }
 
     window.cleanUp();
+    
+    //Quit SDL subsystems
+    SDL_Quit();
 
     return 0;
 }

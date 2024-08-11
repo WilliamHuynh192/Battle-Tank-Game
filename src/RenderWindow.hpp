@@ -1,5 +1,4 @@
-#ifndef RENDER_WINDOW_HEADER
-#define RENDER_WINDOW_HEADER
+#pragma once
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
@@ -21,5 +20,3 @@ private:
     SDL_Surface* m_gameSurface = nullptr; // Game surface contains in the window
 
 };
-
-#endif  // RENDER_WINDOW_HEADER
