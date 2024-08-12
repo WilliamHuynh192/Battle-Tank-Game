@@ -29,8 +29,28 @@ void RenderWindow::cleanUp() {
 
 }
 
-bool RenderWindow::loadSprites(const char* fileName, const char* filePath) {
+SDL_Texture* RenderWindow::loadTexture(const char* filePath) {
+
+    SDL_Texture* sprite = nullptr;
+
+    sprite = IMG_LoadTexture(m_renderer, filePath);
+
+    if (!sprite) {
+        printf("Could not load the texture from %s, error: %s", filePath, IMG_GetError());
+        return nullptr;
+    }
+
+    return sprite;
+}
 
 
-    return true;
+/*
+ * This function will copy the texture into the off-screen texture to prepare for rendering 
+ */
+int RenderWindow::render(SDL_Texture* texture) {
+    return SDL_RenderCopy(m_renderer, texture, NULL, NULL);
+}
+
+void RenderWindow::display() {
+    SDL_RenderPresent(m_renderer);
 }

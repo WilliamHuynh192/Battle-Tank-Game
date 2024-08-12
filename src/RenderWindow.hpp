@@ -12,7 +12,11 @@ public:
 
     void cleanUp();
 
-    bool loadSprites(const char* fileName, const char* filePath);
+    SDL_Texture* loadTexture(const char* filePath);
+
+    int render(SDL_Texture* texture);
+
+    void display();
 
 private:
 
