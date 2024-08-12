@@ -45,7 +45,7 @@ SDL_Texture* RenderWindow::loadTexture(const char* filePath) {
 
 
 /*
- * This function will copy the texture into the off-screen texture to prepare for rendering 
+ * This function will copy the texture into the off-screen buffer to prepare for rendering 
  */
 int RenderWindow::render(SDL_Texture* texture) {
     return SDL_RenderCopy(m_renderer, texture, NULL, NULL);

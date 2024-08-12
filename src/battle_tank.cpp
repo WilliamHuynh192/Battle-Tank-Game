@@ -2,6 +2,10 @@
 
 int main(int argc, char* argv[]) {
 
+    /*
+        Prepare and setting up stages
+    */
+
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
         printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
         return -1;
@@ -21,6 +25,11 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
+
+    /*
+        Execute stages
+    */
+
     // Game loop
     SDL_Event e; 
     bool quit = false; 
@@ -33,6 +42,10 @@ int main(int argc, char* argv[]) {
         window.display();
     }
 
+
+    /*
+        Clean up stages
+    */
     window.cleanUp();
     
     //Quit SDL subsystems
