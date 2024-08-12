@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    RenderWindow window{"Battle Tank", 1366, 768};
+    RenderWindow window{"Battle Tank", 1366, 768}; // TODO Don't want this to be fixed
 
     SDL_Texture* playerTank = window.loadTexture("textures/PlayerTank.png");
 
